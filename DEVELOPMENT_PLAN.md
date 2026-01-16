@@ -246,16 +246,6 @@ bubbleY = centerY + (pitch * sensitivity)
 - [ ] Smooth animations without lag
 - [ ] Accurate level detection
 
-## Estimated Development Time
-
-- **Phase 1 (Setup)**: 1-2 hours
-- **Phase 2 (Sensors)**: 3-4 hours
-- **Phase 3 (Custom View)**: 4-6 hours
-- **Phase 4 (Polish)**: 2-3 hours
-- **Phase 5 (Testing)**: 2-3 hours
-
-**Total**: ~12-18 hours for basic implementation
-
 ## Next Steps
 
 1. Set up Android Studio project

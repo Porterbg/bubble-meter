@@ -7,15 +7,43 @@
     android:background="@color/background_dark"
     tools:context=".MainActivity">
 
+    <!-- Vertical spirit level tube (left side) for Y-axis (pitch) -->
+    <com.bubblemeter.SpiritLevelTubeView
+        android:id="@+id/verticalTubeView"
+        android:layout_width="60dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/padding_medium"
+        android:layout_marginTop="@dimen/padding_large"
+        android:layout_marginBottom="@dimen/padding_large"
+        app:layout_constraintBottom_toTopOf="@id/statusContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Main circular level view -->
     <com.bubblemeter.LevelView
         android:id="@+id/levelView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/padding_large"
+        android:layout_marginStart="@dimen/padding_medium"
+        android:layout_marginTop="@dimen/padding_large"
+        android:layout_marginEnd="@dimen/padding_medium"
+        android:layout_marginBottom="@dimen/padding_medium"
+        app:layout_constraintBottom_toTopOf="@id/horizontalTubeView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/verticalTubeView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Horizontal spirit level tube (bottom) for X-axis (roll) -->
+    <com.bubblemeter.SpiritLevelTubeView
+        android:id="@+id/horizontalTubeView"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="@dimen/padding_medium"
+        android:layout_marginEnd="@dimen/padding_medium"
+        android:layout_marginBottom="@dimen/padding_medium"
         app:layout_constraintBottom_toTopOf="@id/statusContainer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/verticalTubeView" />
 
     <LinearLayout
         android:id="@+id/statusContainer"

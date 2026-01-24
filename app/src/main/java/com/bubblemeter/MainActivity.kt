@@ -9,6 +9,8 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
     
     private lateinit var levelView: LevelView
+    private lateinit var verticalTubeView: SpiritLevelTubeView
+    private lateinit var horizontalTubeView: SpiritLevelTubeView
     private lateinit var statusText: TextView
     private lateinit var angleText: TextView
     private lateinit var sensorManager: LevelSensorManager
@@ -19,8 +21,14 @@ class MainActivity : AppCompatActivity() {
         
         // Initialize views
         levelView = findViewById(R.id.levelView)
+        verticalTubeView = findViewById(R.id.verticalTubeView)
+        horizontalTubeView = findViewById(R.id.horizontalTubeView)
         statusText = findViewById(R.id.statusText)
         angleText = findViewById(R.id.angleText)
+        
+        // Set orientations for spirit level tubes
+        verticalTubeView.orientation = SpiritLevelTubeView.Orientation.VERTICAL
+        horizontalTubeView.orientation = SpiritLevelTubeView.Orientation.HORIZONTAL
         
         // Initialize sensor manager
         sensorManager = LevelSensorManager(this)
@@ -34,8 +42,14 @@ class MainActivity : AppCompatActivity() {
             // Register sensor listener
             sensorManager.register(object : LevelSensorManager.OnTiltChangeListener {
                 override fun onTiltChanged(pitch: Float, roll: Float) {
-                    // Update level view
+                    // Update main circular level view
                     levelView.updateTilt(pitch, roll)
+                    
+                    // Update vertical tube (Y-axis/pitch)
+                    verticalTubeView.updateTilt(pitch)
+                    
+                    // Update horizontal tube (X-axis/roll)
+                    horizontalTubeView.updateTilt(roll)
                     
                     // Update status text
                     updateStatus(pitch, roll)
@@ -51,6 +65,8 @@ class MainActivity : AppCompatActivity() {
             sensorManager.register(object : LevelSensorManager.OnTiltChangeListener {
                 override fun onTiltChanged(pitch: Float, roll: Float) {
                     levelView.updateTilt(pitch, roll)
+                    verticalTubeView.updateTilt(pitch)
+                    horizontalTubeView.updateTilt(roll)
                     updateStatus(pitch, roll)
                 }
             })

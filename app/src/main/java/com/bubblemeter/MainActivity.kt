@@ -30,6 +30,10 @@ class MainActivity : AppCompatActivity() {
         verticalTubeView.orientation = SpiritLevelTubeView.Orientation.VERTICAL
         horizontalTubeView.orientation = SpiritLevelTubeView.Orientation.HORIZONTAL
         
+        // Force initial draw to start animation loops
+        verticalTubeView.post { verticalTubeView.invalidate() }
+        horizontalTubeView.post { horizontalTubeView.invalidate() }
+        
         // Initialize sensor manager
         sensorManager = LevelSensorManager(this)
         

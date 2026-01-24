@@ -30,6 +30,10 @@ class SpiritLevelTubeView @JvmOverloads constructor(
     var orientation: Orientation = Orientation.VERTICAL
         set(value) {
             field = value
+            // Recalculate sensitivity when orientation changes
+            if (width > 0 && height > 0) {
+                recalculateDimensions()
+            }
             invalidate()
         }
 
@@ -79,10 +83,27 @@ class SpiritLevelTubeView @JvmOverloads constructor(
     init {
         setWillNotDraw(false)
     }
+    
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        // Start animation loop when view is attached
+        invalidate()
+    }
+    
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        // Stop animation when view is detached
+    }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        
+        recalculateDimensions()
+    }
+    
+    /**
+     * Recalculate dimensions and sensitivity based on current size and orientation
+     */
+    private fun recalculateDimensions() {
         centerX = width / 2f
         centerY = height / 2f
         
@@ -107,6 +128,9 @@ class SpiritLevelTubeView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         
+        // Update bubble position with smoothing first
+        updateBubblePosition()
+        
         // Draw the curved tube
         drawTube(canvas)
         
@@ -116,10 +140,8 @@ class SpiritLevelTubeView @JvmOverloads constructor(
         // Draw bubble
         drawBubble(canvas)
         
-        // Update bubble position with smoothing
-        updateBubblePosition()
-        
         // Invalidate to trigger redraw for smooth animation
+        // Always invalidate to keep animation loop running (same as LevelView)
         invalidate()
     }
 
@@ -247,11 +269,14 @@ class SpiritLevelTubeView @JvmOverloads constructor(
             // Vertical: bubble moves up/down based on pitch
             // Positive pitch (forward tilt) -> bubble moves DOWN (away from user)
             // Negative pitch (backward tilt) -> bubble moves UP (toward user)
-            val offset = currentBubblePosition * sensitivity
+            // Calculate bubble position directly from currentBubblePosition
+            val maxOffset = tubeHeight / 2f - bubbleRadius
+            val offset = currentBubblePosition * maxOffset // Use maxOffset instead of sensitivity
             val bubbleY = centerY + offset
+            // Clamp to ensure bubble stays within tube bounds
             val clampedY = bubbleY.coerceIn(
-                centerY - tubeHeight / 2f + bubbleRadius,
-                centerY + tubeHeight / 2f - bubbleRadius
+                centerY - maxOffset,
+                centerY + maxOffset
             )
             
             // Change color based on level status
@@ -274,11 +299,14 @@ class SpiritLevelTubeView @JvmOverloads constructor(
             // Horizontal: bubble moves left/right based on roll
             // Positive roll (right tilt) -> bubble moves RIGHT
             // Negative roll (left tilt) -> bubble moves LEFT
-            val offset = currentBubblePosition * sensitivity
+            // Calculate bubble position directly from currentBubblePosition
+            val maxOffset = tubeWidth / 2f - bubbleRadius
+            val offset = currentBubblePosition * maxOffset // Use maxOffset instead of sensitivity
             val bubbleX = centerX + offset
+            // Clamp to ensure bubble stays within tube bounds
             val clampedX = bubbleX.coerceIn(
-                centerX - tubeWidth / 2f + bubbleRadius,
-                centerX + tubeWidth / 2f - bubbleRadius
+                centerX - maxOffset,
+                centerX + maxOffset
             )
             
             // Change color based on level status
@@ -336,5 +364,7 @@ class SpiritLevelTubeView @JvmOverloads constructor(
         // -45 degrees maps to -1 (top/left), +45 degrees maps to +1 (bottom/right)
         // 0 degrees maps to 0 (center)
         targetBubblePosition = (angle / 45f).coerceIn(-1f, 1f)
+        // Invalidate to trigger redraw with new target position
+        invalidate()
     }
 }

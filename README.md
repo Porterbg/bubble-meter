@@ -25,14 +25,17 @@ A bubble level app for Android that uses the device's sensors to display a visua
 2. Open the project in Android Studio
 3. Build and run on your device or emulator
 
-## Building
+## Building and Running
 
 ### Option 1: Using Android Studio (Recommended)
 1. Open Android Studio
 2. Select **File → Open** and navigate to this project directory
 3. Wait for Gradle sync to complete
-4. Click **Build → Make Project** (or press `Ctrl+F9` / `Cmd+F9`)
-5. To run: Click **Run → Run 'app'** (or press `Shift+F10` / `Ctrl+R`)
+4. **Set up a device:**
+   - **Physical Device**: Connect via USB and enable USB debugging
+   - **Emulator**: Tools → Device Manager → Create/Start an emulator
+5. Click **Run** (green play button) or press `Shift+F10` (Windows) / `Ctrl+R` (Mac)
+6. Select your device/emulator when prompted
 
 ### Option 2: Using Gradle Command Line
 
@@ -61,10 +64,18 @@ A bubble level app for Android that uses the device's sensors to display a visua
 ./gradlew build
 ```
 
-**To build and install on connected device:**
+**To build and install on connected device/emulator:**
 ```powershell
+# Make sure device is connected or emulator is running first
 .\gradlew.bat installDebug    # Windows
 ./gradlew installDebug         # macOS/Linux
+```
+
+**To run the app after installation:**
+```powershell
+# The app will be automatically launched after installDebug
+# Or manually launch it:
+adb shell am start -n com.bubblemeter/.MainActivity
 ```
 
 **To build a release APK:**

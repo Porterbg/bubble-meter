@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Circle representing the bubble level -->
+    <group>
+        <!-- Outer circle -->
+        <path
+            android:fillColor="@android:color/transparent"
+            android:strokeColor="@color/circle_color"
+            android:strokeWidth="3"
+            android:pathData="M54,20 A34,34 0 1,1 54,88 A34,34 0 1,1 54,20 Z"/>
+        
+        <!-- Center indicator (crosshair) -->
+        <path
+            android:strokeColor="@color/center_indicator"
+            android:strokeWidth="2"
+            android:pathData="M54,50 L54,58 M50,54 L58,54"/>
+        
+        <!-- Bubble -->
+        <circle
+            android:fillColor="@color/bubble_color"
+            android:cx="54"
+            android:cy="54"
+            android:r="8"/>
+    </group>
+</vector>

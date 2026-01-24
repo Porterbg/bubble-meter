@@ -3,6 +3,7 @@ package com.bubblemeter
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         // Check if sensor is available
         if (!sensorManager.isSensorAvailable()) {
             statusText.text = getString(R.string.sensor_unavailable)
-            statusText.setTextColor(getColor(R.color.tilted_red))
+            statusText.setTextColor(ContextCompat.getColor(this, R.color.tilted_red))
             angleText.text = ""
         } else {
             // Register sensor listener
@@ -80,13 +81,13 @@ class MainActivity : AppCompatActivity() {
         // Update status text and color
         if (totalTilt < 2.0f) {
             statusText.text = getString(R.string.level_status)
-            statusText.setTextColor(getColor(R.color.level_green))
+            statusText.setTextColor(ContextCompat.getColor(this, R.color.level_green))
         } else {
             statusText.text = getString(R.string.tilted_status)
             if (totalTilt < 10f) {
-                statusText.setTextColor(getColor(R.color.tilted_orange))
+                statusText.setTextColor(ContextCompat.getColor(this, R.color.tilted_orange))
             } else {
-                statusText.setTextColor(getColor(R.color.tilted_red))
+                statusText.setTextColor(ContextCompat.getColor(this, R.color.tilted_red))
             }
         }
     }

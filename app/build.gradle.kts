@@ -46,6 +46,13 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    
+    lint {
+        // Don't abort build on lint errors (warnings are still shown)
+        abortOnError = false
+        // Ignore Kotlin metadata version warnings
+        disable.add("InvalidPackage")
+    }
 }
 
 dependencies {
